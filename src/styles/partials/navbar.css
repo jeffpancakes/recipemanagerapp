@@ -1,0 +1,75 @@
+.navbar {
+    height: 55px;
+    box-shadow: 0 3px 6px var(--shadow-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    font-size: 1.5em;
+    color: var(--primary-color);
+    text-shadow: 0 1px 3px var(--shadow-color);
+}
+
+.navbar .nav-links a {
+    margin-left: 1em;
+    color: var(--text-light);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.navbar .nav-links a::before {
+    content: '';
+    display: inline-block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--primary-color);
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    transform: scaleX(0);
+    transition: transform calc(var(--animation-speed) * 0.25s) ease-in-out;
+}
+
+.navbar .nav-links a:hover::before {
+    transform: scaleX(1);
+}
+
+.navbar .nav-links a.active {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+/* Style for the search form */
+.navbar form {
+    margin-left: auto; /* Push the search form to the right */
+    display: flex;
+    align-items: center;
+}
+
+.navbar .search-box {
+    width: 200px; /* Adjust width as needed */
+    padding: 8px;
+    border: 1px solid var(--primary-color); /* Use primary color for consistency */
+    border-radius: 4px;
+    font-size: 14px;
+    margin-right: 8px; /* Add some spacing between input and button */
+}
+
+.navbar .search-button {
+    padding: 8px 12px;
+    background-color: var(--primary-color); /* Use primary color for button background */
+    color: var(--text-light); /* Light color for button text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.navbar .search-button:hover {
+    background-color: darken(var(--primary-color), 10%); /* Darken button color on hover */
+}
