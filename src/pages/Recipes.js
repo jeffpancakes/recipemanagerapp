@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import RecipeForm from '../components/RecipeForm';
-import '../styles/partials/recipesStyles.css'; // Import your CSS file here
+import '../styles/partials/recipesStyles.css';
 
 export default function Recipes() {
   const [showForm, setShowForm] = useState(false);

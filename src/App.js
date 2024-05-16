@@ -5,6 +5,7 @@ import {
 } from "react-router-dom"
 
 import Navbar from './components/Navbar';
+import Footer from "./components/Footer";
 
 import Home from './pages/Home';
 import Recipes from './pages/Recipes';
@@ -22,6 +23,7 @@ function App() {
           <Route path="/recipes" element={<Recipes />} />
         </Routes>
         </RecipeListProvider>
+        <Footer />
       </div>
     </Router>
   );
