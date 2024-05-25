@@ -1,0 +1,51 @@
+.sidebar-btn {
+    position: relative;
+    height: 28px;
+    width: 30px;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.sidebar-btn .bar {
+    border-radius: 5px;
+    height: 8px;
+    width: 100%;
+    background-color: var(--text-color);
+    position: absolute;
+    transition: all 0.3s ease;
+}
+
+.sidebar-btn .bar:nth-child(1) {
+    top: 0;
+}
+
+.sidebar-btn .bar:nth-child(2) {
+    top: 50%;
+    transform-origin: right;
+    transform: scaleX(0.8) translateY(-50%);
+}
+
+.sidebar-btn .bar:nth-child(3) {
+    top: 100%;
+    transform-origin: right;
+    transform: scaleX(1.1) translateY(-100%);
+}
+
+.sidebar-btn.active .bar {
+    transform-origin: center;
+    top: 50%;
+}
+
+.sidebar-btn.active .bar:nth-child(1) {
+    transform: translate(0, -50%) scale(1) rotate(45deg);
+}
+
+.sidebar-btn.active .bar:nth-child(2) {
+    transform: scaleX(0) translateY(-50%);
+}
+
+.sidebar-btn.active .bar:nth-child(3) {
+    transform: translate(0, -50%) scale(1) rotate(-45deg);
+}
