@@ -1,0 +1,49 @@
+.home-container {
+    padding: 30px;
+    text-align: center;
+  }
+  
+  .home-container h2 {
+    margin-top: 60px;
+  }
+  
+  .quote {
+    margin: 60px 0;
+    font-style: italic;
+    color: #555;
+  }
+  
+  .featured-recipes, .latest-recipes, .cooking-tips {
+    margin: 30px 0;
+  }
+  
+  .home-recipe-card {
+    background-color: lightgray;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px;
+    display: inline-block;
+    width: 30%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* .recipe-card h3 {
+    color: #333;
+  }
+  
+  .recipe-card p {
+    color: #666;
+  } */
+  
+  .cooking-tips ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .cooking-tips li {
+    background-color: lightgray;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
