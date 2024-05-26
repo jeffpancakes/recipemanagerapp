@@ -3,13 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faList, faUser, faUserShield } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "./Sidebar";
+import { useUser } from "./UserContext";
 import '../styles/partials/navbar.css';
 import '../styles/partials/sidebarButton.css';
-import { useUser } from './UserContext';
 
 export default function Navbar() {
-    const [showSidebar, setShowSidebar] = useState(false);
     const { user, setUser } = useUser();
+    const [showSidebar, setShowSidebar] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const navigate = useNavigate();
 
@@ -26,40 +26,29 @@ export default function Navbar() {
         },
     ];
 
-    if (user && !user.isAdmin) {
-        links.push({
-            name: 'User',
-            path: '/user-dashboard',
-            icon: faUser
-        });
-    }
-
-    if (user && user.isAdmin) {
-        links.push({
-            name: 'Admin',
-            path: '/admin-dashboard',
-            icon: faUserShield
-        });
-    }
-
-    function closeSidebar() {
-        setShowSidebar(false);
-    }
-
     const handleLogin = () => {
         setUser(selectedUser);
-        navigate('/');
     };
 
     const handleLogout = () => {
         setUser(null);
-        navigate('/');
+        setSelectedUser(null);
     };
 
     const users = [
         { id: 1, name: 'Jeff', isAdmin: false },
         { id: 2, name: 'Admin', isAdmin: true }
     ];
+
+    function closeSidebar() {
+        setShowSidebar(false);
+    };
+
+    const handleDashboardClick = () => {
+        if (user) {
+            navigate(user.isAdmin ? '/admin-dashboard' : '/user-dashboard');
+        }
+    };
 
     return (
         <div>
@@ -73,44 +62,46 @@ export default function Navbar() {
                         </Link>
                     ))}
                 </div>
+                <div className="user-section">
+                    {user ? (
+                        <div className="user-info">
+                            <FontAwesomeIcon icon={user.isAdmin ? faUserShield : faUser} className="user-icon" />
+                            <span>{user.name}</span>
+                            <button className="dashboard-button" onClick={handleDashboardClick}>
+                                {user.isAdmin ? 'Admin' : 'User'}
+                            </button>
+                            <button className="logout-button" onClick={handleLogout}>Logout</button>
+                        </div>
+                    ) : (
+                        <div className="login-section">
+                            <select
+                                value={selectedUser ? selectedUser.id : ''}
+                                onChange={(e) =>
+                                    setSelectedUser(
+                                        users.find((user) => user.id === parseInt(e.target.value))
+                                    )
+                                }
+                            >
+                                <option value="">Select User</option>
+                                {users.map((user) => (
+                                    <option key={user.id} value={user.id}>
+                                        {user.name}
+                                    </option>
+                                ))}
+                            </select>
+                            <button onClick={handleLogin} disabled={!selectedUser}>
+                                Login
+                            </button>
+                        </div>
+                    )}
+                </div>
                 <div onClick={() => setShowSidebar(true)} className={showSidebar ? "sidebar-btn active" : "sidebar-btn"}>
                     <div className="bar"></div>
                     <div className="bar"></div>
                     <div className="bar"></div>
                 </div>
             </div>
-            {showSidebar && <Sidebar close={closeSidebar} links={links} />}
-            <div className="auth-container">
-                {user ? (
-                    <div>
-                        <button>{user.name}</button>
-                        <ul>
-                            <li onClick={handleLogout}>Logout</li>
-                        </ul>
-                    </div>
-                ) : (
-                    <div>
-                        <select
-                            value={selectedUser ? selectedUser.id : ''}
-                            onChange={(e) =>
-                                setSelectedUser(
-                                    users.find((user) => user.id === parseInt(e.target.value))
-                                )
-                            }
-                        >
-                            <option value="">Select User</option>
-                            {users.map((user) => (
-                                <option key={user.id} value={user.id}>
-                                    {user.name}
-                                </option>
-                            ))}
-                        </select>
-                        <button onClick={handleLogin} disabled={!selectedUser}>
-                            Login
-                        </button>
-                    </div>
-                )}
-            </div>
+            { showSidebar && <Sidebar close={closeSidebar} links={links} />}
         </div>
     );
 }

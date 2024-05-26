@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate, Route, Routes } from 'react-router-dom';
 import RecipeForm from '../components/RecipeForm';
+import EditRecipe from './EditRecipe';
 import '../styles/partials/recipesStyles.css';
 
 export default function Recipes() {
   const [showForm, setShowForm] = useState(false);
   const [recipes, setRecipes] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const storedRecipes = JSON.parse(localStorage.getItem('recipes')) || [];
+    const validStoredRecipes = storedRecipes.filter(recipe => recipe.label && recipe.ingredients && recipe.ingredients.length > 0);
+
     async function fetchRecipes() {
       try {
         const response = await fetch(`https://api.edamam.com/search?q=pancakes&app_id=a75e74ab&app_key=23c72b2b0e7355aab22225b85d1f3a2a`);
@@ -15,11 +21,24 @@ export default function Recipes() {
           throw new Error('Failed to fetch recipes');
         }
         const data = await response.json();
-        setRecipes(data.hits.map(hit => hit.recipe));
+
+        const apiRecipes = data.hits.map(hit => ({
+          ...hit.recipe,
+          id: uuidv4(),
+        }));
+
+        const uniqueApiRecipes = apiRecipes.filter(apiRecipe => {
+          return !validStoredRecipes.some(storedRecipe => storedRecipe.label === apiRecipe.label);
+        });
+
+        const updatedRecipes = [...validStoredRecipes, ...uniqueApiRecipes];
+        setRecipes(updatedRecipes);
+        localStorage.setItem('recipes', JSON.stringify(updatedRecipes));
       } catch (error) {
         console.error('Error fetching recipes:', error);
       }
     }
+
     fetchRecipes();
   }, []);
 
@@ -35,48 +54,67 @@ export default function Recipes() {
       ingredients: formData.ingredients.map((ingredient, index) => ({ text: ingredient, weight: index })),
       ingredientLines: formData.instructions
     };
-    setRecipes([...recipes, newRecipe]);
+    const updatedRecipes = [...recipes, newRecipe];
+    setRecipes(updatedRecipes);
+    localStorage.setItem('recipes', JSON.stringify(updatedRecipes));
     toggleForm();
   };
-  
+
   const handleDelete = (recipeId) => {
-    setRecipes(recipes.filter(recipe => recipe.id !== recipeId));
+    const updatedRecipes = recipes.filter(recipe => recipe.id !== recipeId);
+    setRecipes(updatedRecipes);
+    localStorage.setItem('recipes', JSON.stringify(updatedRecipes));
+  };
+
+  const handleEdit = (recipeId) => {
+    navigate(`/edit-recipe/${recipeId}`);
   };
 
   return (
     <div>
-      <h1>All Recipes</h1>
-      <button className="create-recipe-button" onClick={toggleForm}>Create New Recipe</button>
-      {showForm && <RecipeForm onSubmit={handleFormSubmit} />}
-      <div className="recipe-list">
-        {recipes.length > 0 ? (
-          recipes.map(recipe => (
-            <div key={recipe.id} className="recipe-card">
-              <h2>{recipe.label}</h2>
-              <h3>Ingredients:</h3>
-              <ul>
-                {recipe.ingredients && recipe.ingredients.map((ingredient, index) => (
-                  <li key={index}>{ingredient.text}</li>
-                ))}
-              </ul>
-              {/* <h3>Instructions:</h3>
-              <ol>
-                {recipe.ingredientLines && recipe.ingredientLines.map((instruction, index) => (
-                  <li key={index}>{instruction}</li>
-                ))}
-              </ol> */}
-              <a href="https://smittenkitchen.com/recipes/" target="_blank" rel="noopener noreferrer">
-                <button className="instructions-button">Instructions</button>
-              </a>
-              {recipe.newlyCreated && (
-                <button className="delete-button" onClick={() => handleDelete(recipe.id)}>Delete</button>
+      <Routes>
+        <Route path="/" element={
+          <div>
+            <h1>All Recipes</h1>
+            <button className="create-recipe-button" onClick={toggleForm}>Create New Recipe</button>
+            {showForm && <RecipeForm onSubmit={handleFormSubmit} />}
+            <div className="recipe-list">
+              {recipes.length > 0 ? (
+                recipes.map(recipe => (
+                  <div key={recipe.id} className="recipe-card">
+                    <h2>{recipe.label}</h2>
+                    <h3>Ingredients:</h3>
+                    <ul>
+                      {recipe.ingredients && recipe.ingredients.map((ingredient, index) => (
+                        <li key={index}>{ingredient.text}</li>
+                      ))}
+                    </ul>
+                    {recipe.newlyCreated ? (
+                      <div>
+                        <h3>Instructions:</h3>
+                        <ul>
+                          {recipe.ingredientLines.map((instruction, index) => (
+                            <li key={index}>{instruction}</li>
+                          ))}
+                        </ul>
+                        <button className="delete-button" onClick={() => handleDelete(recipe.id)}>Delete</button>
+                        <button className="edit-button" onClick={() => handleEdit(recipe.id)}>Edit</button>
+                      </div>
+                    ) : (
+                      <a href="https://smittenkitchen.com/recipes/" target="_blank" rel="noopener noreferrer">
+                        <button className="instructions-button">Instructions</button>
+                      </a>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p>Loading...</p>
               )}
             </div>
-          ))
-        ) : (
-          <p>Loading...</p>
-        )}
-      </div>
+          </div>
+        } />
+        <Route path="/edit-recipe/:id" element={<EditRecipe recipes={recipes} setRecipes={setRecipes} />} />
+      </Routes>
     </div>
   );
 }

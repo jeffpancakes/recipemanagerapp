@@ -9,7 +9,7 @@ const UserDashboard = () => {
     return <Navigate to="/home" />;
   }
 
-  return <div>User Dashboard</div>;
+  return <div>This is User Dashboard.</div>;
 };
 
 export default UserDashboard;

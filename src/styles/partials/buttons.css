@@ -28,7 +28,7 @@
     background-color: #7d00a3;
 }
 
-.delete-button {
+.delete-button, .edit-button {
     background-color: var(--primary-color);
     color: #fff;
     padding: 10px 20px;
@@ -39,7 +39,7 @@
     margin-bottom: 20px;
 }
 
-.delete-button:hover {
+.delete-button:hover, .edit-button:hover {
     background-color: #7f52ff;
 }
 

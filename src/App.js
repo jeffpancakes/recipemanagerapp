@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,11 +12,27 @@ import Home from './pages/Home';
 import Recipes from './pages/Recipes';
 import AdminDashboard from './pages/AdminDashboard';
 import UserDashboard from './pages/UserDashboard';
+import EditRecipe from './pages/EditRecipe';
 
 import RecipeListProvider from "./components/RecipeListProvider";
 import { UserProvider } from './components/UserContext';
 
 function App() {
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    const storedRecipes = JSON.parse(localStorage.getItem('recipes')) || [];
+    setRecipes(storedRecipes);
+  }, []);
+
+  const updateRecipe = (updatedRecipe) => {
+    const updatedRecipes = recipes.map((recipe) =>
+      recipe.id === updatedRecipe.id ? updatedRecipe : recipe
+    );
+    setRecipes(updatedRecipes);
+    localStorage.setItem('recipes', JSON.stringify(updatedRecipes));
+  };
+
   return (
     <UserProvider>
       <Router>
@@ -28,6 +44,7 @@ function App() {
               <Route path="/recipes" element={<Recipes />} />
               <Route path="/admin-dashboard" element={<AdminDashboard />} />
               <Route path="/user-dashboard" element={<UserDashboard />} />
+              <Route path="/edit-recipe/:id" element={<EditRecipe recipes={recipes} updateRecipe={updateRecipe} />} />
             </Routes>
           </RecipeListProvider>
           <Footer />

@@ -9,7 +9,7 @@ const AdminDashboard = () => {
     return <Navigate to="/home" />;
   }
 
-  return <div>Admin Dashboard</div>;
+  return <div>This is Admin Dashboard.</div>;
 };
 
 export default AdminDashboard;

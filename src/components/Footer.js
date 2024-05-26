@@ -8,16 +8,16 @@ const Footer = () => {
         <footer className="footer">
             <div className="footer-container">
                 <div className="footer-section">
-                    <h3>About Us</h3>
+                    <h3>About This App</h3>
                     <p>This is my school project.</p>
                 </div>
                 <div className="footer-section">
-                    <h3>Contact</h3>
+                    <h3>Stalk Me</h3>
                     <p>Email: jeff.pancakes@gmail.com</p>
                     <p>Phone: +420 694 207 777</p>
                 </div>
                 <div className="footer-section">
-                    <h3>Follow Us</h3>
+                    <h3>Follow Someone Else</h3>
                     <div className="social-icons">
                         <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
                             <FontAwesomeIcon icon={faFacebook} />
@@ -38,8 +38,6 @@ const Footer = () => {
                     <ul>
                         <li><a href="/">Home</a></li>
                         <li><a href="/recipes">Recipes</a></li>
-                        {/* <li><a href="/services">Services</a></li>
-                        <li><a href="/contact">Contact</a></li> */}
                     </ul>
                 </div>
             </div>

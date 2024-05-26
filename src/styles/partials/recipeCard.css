@@ -3,6 +3,7 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 .recipe-card h2 {
@@ -17,9 +18,10 @@
 
 .recipe-card ul,
 .recipe-card ol {
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .recipe-card li {
     margin-bottom: 5px;
+    padding-left: 10px;
 }

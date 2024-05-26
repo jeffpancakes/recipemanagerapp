@@ -1,3 +1,45 @@
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-icon {
+    font-size: 1.5rem;
+    color: var(--text-color);
+}
+
+.dashboard-button, .logout-button, .login-section select, .login-section button {
+    padding: 5px 10px;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    background-color: white;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.dashboard-button:hover, .logout-button:hover, .login-section button:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.login-section select {
+    cursor: pointer;
+}
+
+
 .navbar {
     height: 55px;
     box-shadow: 0 3px 6px var(--shadow-color);
