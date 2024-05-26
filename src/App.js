@@ -13,6 +13,7 @@ import Recipes from './pages/Recipes';
 import AdminDashboard from './pages/AdminDashboard';
 import UserDashboard from './pages/UserDashboard';
 import EditRecipe from './pages/EditRecipe';
+import CreateRecipe from './pages/CreateRecipe'; // Import CreateRecipe
 
 import RecipeListProvider from "./components/RecipeListProvider";
 import { UserProvider } from './components/UserContext';
@@ -33,6 +34,12 @@ function App() {
     localStorage.setItem('recipes', JSON.stringify(updatedRecipes));
   };
 
+  const addRecipe = (newRecipe) => {
+    const updatedRecipes = [...recipes, newRecipe];
+    setRecipes(updatedRecipes);
+    localStorage.setItem('recipes', JSON.stringify(updatedRecipes));
+  };
+
   return (
     <UserProvider>
       <Router>
@@ -45,6 +52,7 @@ function App() {
               <Route path="/admin-dashboard" element={<AdminDashboard />} />
               <Route path="/user-dashboard" element={<UserDashboard />} />
               <Route path="/edit-recipe/:id" element={<EditRecipe recipes={recipes} updateRecipe={updateRecipe} />} />
+              <Route path="/create-recipe" element={<CreateRecipe addRecipe={addRecipe} />} /> {/* Add the CreateRecipe route */}
             </Routes>
           </RecipeListProvider>
           <Footer />

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate, Route, Routes } from 'react-router-dom';
-import RecipeForm from '../components/RecipeForm';
 import EditRecipe from './EditRecipe';
+import CreateRecipe from './CreateRecipe';
 import '../styles/partials/recipesStyles.css';
 
 export default function Recipes() {
-  const [showForm, setShowForm] = useState(false);
   const [recipes, setRecipes] = useState([]);
   const [query, setQuery] = useState('none');
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,24 +43,6 @@ export default function Recipes() {
     }
   }
 
-  const toggleForm = () => {
-    setShowForm(!showForm);
-  };
-
-  const handleFormSubmit = (formData) => {
-    const newRecipe = {
-      id: uuidv4(),
-      newlyCreated: true,
-      label: formData.name,
-      ingredients: formData.ingredients.map((ingredient, index) => ({ text: ingredient, weight: index })),
-      ingredientLines: formData.instructions
-    };
-    const updatedRecipes = [...recipes, newRecipe];
-    setRecipes(updatedRecipes);
-    localStorage.setItem('recipes', JSON.stringify(updatedRecipes));
-    toggleForm();
-  };
-
   const handleDelete = (recipeId) => {
     const updatedRecipes = recipes.filter(recipe => recipe.id !== recipeId);
     setRecipes(updatedRecipes);
@@ -70,6 +51,12 @@ export default function Recipes() {
 
   const handleEdit = (recipeId) => {
     navigate(`/edit-recipe/${recipeId}`);
+  };
+
+  const handleAddRecipe = (newRecipe) => {
+    const updatedRecipes = [...recipes, newRecipe];
+    setRecipes(updatedRecipes);
+    localStorage.setItem('recipes', JSON.stringify(updatedRecipes));
   };
 
   const handleSearch = (event) => {
@@ -87,8 +74,7 @@ export default function Recipes() {
         <Route path="/" element={
           <div>
             <h1>All Recipes</h1>
-            <button className="create-recipe-button" onClick={toggleForm}>Create New Recipe</button>
-            {showForm && <RecipeForm onSubmit={handleFormSubmit} />}
+            <button className="create-recipe-button" onClick={() => navigate('/create-recipe')}>Create New Recipe</button>
             <div className="search-container">
               <form className="search-form" onSubmit={handleSearch}>
                 <input 
@@ -136,7 +122,12 @@ export default function Recipes() {
             </div>
           </div>
         } />
-        <Route path="/edit-recipe/:id" element={<EditRecipe recipes={recipes} setRecipes={setRecipes} />} />
+        <Route path="/edit-recipe/:id" element={<EditRecipe recipes={recipes} updateRecipe={(updatedRecipe) => {
+          const updatedRecipes = recipes.map(recipe => recipe.id === updatedRecipe.id ? updatedRecipe : recipe);
+          setRecipes(updatedRecipes);
+          localStorage.setItem('recipes', JSON.stringify(updatedRecipes));
+        }} />} />
+        <Route path="/create-recipe" element={<CreateRecipe addRecipe={handleAddRecipe} />} />
       </Routes>
     </div>
   );
