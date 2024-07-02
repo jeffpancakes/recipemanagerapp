@@ -6,8 +6,8 @@ import '../styles/partials/homeStyles.css';
 const Home = () => {
   const featuredRecipes = [
     { id: 1, name: 'Basic Pancakes', description: 'Simple, but delicious pancakes.' },
-    { id: 2, name: 'Spaghetti Carbonara', description: 'Classic Italian pasta dish without cream.' },
-    { id: 3, name: 'Caesar Salad', description: 'Crunchy and flavorful chicken salad.' },
+    { id: 2, name: 'Spaghetti Carbonara', description: 'Classic Italian pasta dish without cream, of course.' },
+    { id: 3, name: 'Flapjacks', description: 'Everybody likes flapjacks!' },
   ];
 
   return (
@@ -24,19 +24,19 @@ const Home = () => {
         ))}
       </div>
 
-      <h2>Latest Recipes</h2>
+      {/* <h2>Latest Recipes</h2>
       <div className="latest-recipes">
         <p>Check out the newest recipes added by our community!</p>
-      </div>
+      </div> */}
 
-      <h2>Cooking Tips & Tricks</h2>
+      <h2>Tips & Tricks For Cooking</h2>
       <div className="cooking-tips">
         <ul>
           <li>Always read the recipe all the way through before starting.</li>
           <li>"To get the best produce, either grow it yourself or bribe a grower."</li>
           <li>Use fresh ingredients for the best flavor.</li>
-          <li>Never back down, never what? Never give up!</li>
-          <li>Prep all your ingredients before you start cooking.</li>
+          <li>"Never back down, never what?"</li>
+          <li>Prepare all your ingredients before you start cooking.</li>
         </ul>
       </div>
 

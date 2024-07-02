@@ -36,7 +36,7 @@ export default function Navbar() {
     };
 
     const users = [
-        { id: 1, name: 'Jeff', isAdmin: false },
+        { id: 1, name: 'User', isAdmin: false },
         { id: 2, name: 'Admin', isAdmin: true }
     ];
 
