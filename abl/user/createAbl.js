@@ -15,7 +15,7 @@ const user = {
   additionalProperties: false,
 };
 
-async function CreateAbl(req, res) {
+async function createAbl(req, res) {
   try {
     let user = req.body;
 
@@ -44,4 +44,4 @@ async function CreateAbl(req, res) {
   }
 }
 
-module.exports = CreateAbl;
+module.exports = createAbl;

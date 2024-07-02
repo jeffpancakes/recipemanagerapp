@@ -12,7 +12,7 @@ const roleSchema = {
   additionalProperties: false
 };
 
-async function CreateAbl(req, res) {
+async function createAbl(req, res) {
   try {
     let role = req.body;
 
@@ -42,4 +42,4 @@ async function CreateAbl(req, res) {
   }
 }
 
-module.exports = CreateAbl;
+module.exports = createAbl;

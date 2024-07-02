@@ -1,17 +1,23 @@
 const recipeDao = require("../../dao/recipe-dao.js");
 
-async function DeleteAbl(req, res) {
+async function deleteAbl(req, res) {
   try {
     const recipeId = req.params.id;
-    const deletedRecipe = recipeDao.remove(recipeId);
+
+    
+    const deletedRecipe = await recipeDao.remove(recipeId);
+    
     if (!deletedRecipe) {
-      res.status(404).json({ message: "Recipe not found" });
-      return;
+      
+      return res.status(404).json({ message: "Recipe not found" });
     }
-    res.json({ message: "Recipe deleted successfully" });
+    
+    return res.json({ message: "Recipe deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    
+    console.error("Error in deleteAbl:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 }
 
-module.exports = DeleteAbl;
+module.exports = deleteAbl;

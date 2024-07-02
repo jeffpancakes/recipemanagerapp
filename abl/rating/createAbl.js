@@ -1,5 +1,6 @@
 const Ajv = require("ajv");
 const ajv = new Ajv();
+
 const ratingDao = require("../../dao/rating-dao.js");
 
 const ratingSchema = {
@@ -13,7 +14,7 @@ const ratingSchema = {
   additionalProperties: false
 };
 
-async function CreateAbl(req, res) {
+async function createAbl(req, res) {
   try {
     let rating = req.body;
 
@@ -33,4 +34,4 @@ async function CreateAbl(req, res) {
   }
 }
 
-module.exports = CreateAbl;
+module.exports = createAbl;

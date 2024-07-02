@@ -15,24 +15,24 @@ function get(recipeId) {
   }
 }
 
-function create(recipe) {
+function create(recipes) {
   try {
-    recipe.id = crypto.randomBytes(16).toString("hex");
-    const filePath = path.join(recipeFolderPath, `${recipe.id}.json`);
-    const fileData = JSON.stringify(recipe);
+    recipes.id = crypto.randomBytes(16).toString("hex");
+    const filePath = path.join(recipeFolderPath, `${recipes.id}.json`);
+    const fileData = JSON.stringify(recipes);
     fs.writeFileSync(filePath, fileData, "utf8");
-    return recipe;
+    return recipes;
   } catch (error) {
     throw { code: "failedToCreateRecipe", message: error.message };
   }
 }
 
-function update(recipe) {
+function update(recipes) {
   try {
-    const currentRecipe = get(recipe.id);
+    const currentRecipe = get(recipes.id);
     if (!currentRecipe) return null;
-    const newRecipe = { ...currentRecipe, ...recipe };
-    const filePath = path.join(recipeFolderPath, `${recipe.id}.json`);
+    const newRecipe = { ...currentRecipe, ...recipes };
+    const filePath = path.join(recipeFolderPath, `${recipes.id}.json`);
     const fileData = JSON.stringify(newRecipe);
     fs.writeFileSync(filePath, fileData, "utf8");
     return newRecipe;
